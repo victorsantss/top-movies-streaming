@@ -1,4 +1,4 @@
-export async function getMovieDetail(imdb_id: string) {
+export async function getMovieProviders(imdb_id: string) {
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/${imdb_id}/watch/providers?api_key=817bc93f0361c0bdcb9ae9a48e053d3a&language=en-US&watch_region=BR`

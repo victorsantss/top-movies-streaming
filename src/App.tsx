@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { getMovieDetail } from "./services/getMovieDetail";
-import { getMovieList } from "./services/getMovieList";
+import { getMovieProviders } from "./services/getMovieProviders";
+import { getMoviesList } from "./services/getMoviesList";
 
 interface Movie {
   position: number;
@@ -15,15 +15,15 @@ function App() {
   const [movieList, setMovieList] = useState<Movie[]>([]);
 
   const getMovieListData = async () => {
-    const data = await getMovieList();
+    const data = await getMoviesList();
     setMovieList(data);
-    updateMovieListData(data);
+    getMovieProviderDetails(data);
   };
 
-  const updateMovieListData = async (list: []) => {
+  const getMovieProviderDetails = async (list: []) => {
     const providers = await Promise.all(
       list.map((movie: Movie) => {
-        return getMovieDetail(movie.imdb_id);
+        return getMovieProviders(movie.imdb_id);
       })
     );
 
@@ -40,27 +40,27 @@ function App() {
 
   return (
     <div className="App">
-      <h1>TOP 250 ON STREAMING</h1>
-      {movieList?.map((movie) => (
-        <table key={movie.position}>
-          <thead>
-            <tr>
-              <th>Position</th>
-              <th className="title-box">Title</th>
-              <th>Rating</th>
-              <th>Streaming Services</th>
+      <h1>IMDB TOP 250 ON STREAMING</h1>
+      <table>
+        <thead>
+          <tr>
+            <th className="position-box">Position</th>
+            <th className="title-box">Title</th>
+            <th className="rating-box">Rating</th>
+            <th className="providers-box">Streaming Services</th>
+          </tr>
+        </thead>
+        <tbody>
+          {movieList?.map((movie) => (
+            <tr key={movie.position}>
+              <td title="Position">{movie.position}</td>
+              <td title="Title">{movie.title}</td>
+              <td title="Rating">{movie.rating}</td>
+              <td title="Streaming Providers">{movie.providers ? movie.providers.join(", ") : <p className="no-streaming-msg">No streaming providers</p>}</td>
             </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{movie.position}</td>
-              <td>{movie.title}</td>
-              <td>{movie.rating}</td>
-              <td>{movie.providers ? movie.providers[0] : "No streaming."}</td>
-            </tr>
-          </tbody>
-        </table>
-      ))}
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
