@@ -7,7 +7,6 @@ export async function getMovieDetail(imdb_id: string) {
 
     return movieDetails.results.BR?.flatrate
       ?.map((item: any) => item.provider_name)
-      .join(", ");
   } catch (e) {
     console.log(e);
   }
