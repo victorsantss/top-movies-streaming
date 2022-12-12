@@ -90,7 +90,7 @@ export default function WatchProvidersFilter() {
           width: 250,
           height: 56,
         }}
-      >Clear Filters</Button>
+      >Clear Filter</Button>
     </Box >
   )
 }
