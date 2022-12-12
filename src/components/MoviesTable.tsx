@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { FilterByProviderContext } from "../context/FilterByProviderContext";
 import { getMovieProviders } from "../services/getMovieProviders";
 import { getMoviesList } from "../services/getMoviesList";
 
@@ -7,11 +8,13 @@ interface Movie {
   title: string;
   rating: number;
   imdb_id: string;
-  providers: any;
+  providers: [string];
 }
 
 export default function MoviesTable() {
   const [movieList, setMovieList] = useState<Movie[]>([]);
+  const { providerState }: any = useContext(FilterByProviderContext);
+  const providerStateArray = providerState?.split(",");
 
   const getMovieListData = async () => {
     const data = await getMoviesList();
@@ -36,6 +39,7 @@ export default function MoviesTable() {
   useEffect(() => {
     getMovieListData();
   }, []);
+
   return (
     <table>
       <thead>
@@ -47,15 +51,24 @@ export default function MoviesTable() {
         </tr>
       </thead>
       <tbody>
-        {movieList?.map((movie) => (
-          <tr key={movie.position}>
-            <td title="Position">{movie.position}</td>
-            <td title="Title">{movie.title}</td>
-            <td title="Rating">{movie.rating}</td>
-            <td title="Streaming Providers">{movie.providers ? movie.providers.join(", ")
-              : <p className="no-streaming-msg">No streaming providers</p>}</td>
-          </tr>
-        ))}
+        {movieList
+          .filter((movie) => {
+            if (providerState) {
+              return providerStateArray.some((provider: string) =>
+                movie.providers?.includes(provider)
+              );
+            }
+            return movie;
+          })
+          .map((movie) => (
+            <tr key={movie.position}>
+              <td title="Position">{movie.position}</td>
+              <td title="Title">{movie.title}</td>
+              <td title="Rating">{movie.rating}</td>
+              <td title="Streaming Providers">{movie.providers ? movie.providers.join(", ")
+                : <p className="no-streaming-msg">No streaming providers</p>}</td>
+            </tr>
+          ))}
       </tbody>
     </table>
   )

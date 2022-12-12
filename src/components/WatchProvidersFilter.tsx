@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
 import { getWatchProviders } from "../services/getWatchProviders";
+import { FilterByProviderContext } from "../context/FilterByProviderContext";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -23,6 +24,8 @@ const MenuProps = {
 };
 
 export default function WatchProvidersFilter() {
+  const { providerState, setProviderState }: any = useContext(FilterByProviderContext)
+  const [providerName, setProviderName] = useState<string[]>([]);
   const [watchProviders, setWatchProviders] = useState([]);
 
   const getWatchProviderOptions = async () => {
@@ -30,17 +33,18 @@ export default function WatchProvidersFilter() {
     setWatchProviders(data);
   };
 
-  const [providerName, setProviderName] = useState<string[]>([]);
-
   const handleChange = (event: SelectChangeEvent<typeof providerName>) => {
     const {
       target: { value },
     } = event;
     setProviderName(
-      // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
   };
+
+  useEffect(() => {
+    setProviderState(providerName.toString());
+  }, [providerName]);
 
   const handleClear = () => {
     setProviderName([]);
@@ -54,10 +58,10 @@ export default function WatchProvidersFilter() {
     <Box
       sx={{
         display: "flex",
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-      <FormControl sx={{ m: 1, width: 800 }}>
+      <FormControl sx={{ m: 1, width: 1000 }}>
         <InputLabel id="demo-multiple-checkbox-label">Filter by provider</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"
@@ -83,7 +87,7 @@ export default function WatchProvidersFilter() {
         startIcon={<DeleteIcon />}
         size="large"
         sx={{
-          width: 300,
+          width: 250,
           height: 56,
         }}
       >Clear Filters</Button>

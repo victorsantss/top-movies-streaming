@@ -26,6 +26,7 @@ th,
 td {
   height: 30px;
   border: 1px solid #b3d9ff;
+  border-radius: 5px;
   padding: 8px;
 }
 
