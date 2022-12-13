@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import "./App.css";
 import MoviesTable from "./components/MoviesTable";
 import WatchProvidersFilter from "./components/WatchProvidersFilter";

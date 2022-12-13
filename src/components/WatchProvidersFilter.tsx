@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
@@ -58,10 +58,11 @@ export default function WatchProvidersFilter() {
     <Box
       sx={{
         display: "flex",
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        justifyContent: 'start',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
       }}>
-      <FormControl sx={{ m: 1, width: 1000 }}>
+      <FormControl sx={{ mb: 1, width: 310 }}>
         <InputLabel id="demo-multiple-checkbox-label">Filter by provider</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"
@@ -81,16 +82,14 @@ export default function WatchProvidersFilter() {
           ))}
         </Select>
       </FormControl>
-      <Button
-        variant="outlined"
+      <IconButton
         onClick={handleClear}
-        startIcon={<DeleteIcon />}
+        aria-label="delete"
+        color="primary"
         size="large"
-        sx={{
-          width: 250,
-          height: 56,
-        }}
-      >Clear Filter</Button>
+        title="Clear Filters">
+        <DeleteIcon fontSize="inherit" />
+      </IconButton>
     </Box >
   )
 }
