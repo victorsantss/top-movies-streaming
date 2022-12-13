@@ -60,7 +60,6 @@ export default function WatchProvidersFilter() {
         display: "flex",
         justifyContent: 'start',
         alignItems: 'flex-start',
-        flexWrap: 'wrap',
       }}>
       <FormControl sx={{ mb: 1, width: 310 }}>
         <InputLabel id="demo-multiple-checkbox-label">Filter by provider</InputLabel>
